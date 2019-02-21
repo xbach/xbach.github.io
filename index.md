@@ -3,5 +3,6 @@ This automatic page generator is the easiest way to create beautiful pages for a
 
 ### Looking for something?
 * [Twitter](https://twitter.com/_xbach/)
+* [CV](http://cv.xbach.cz)
 * [Instagram](http://instagr.am/_xbach)
 
