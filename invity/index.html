@@ -6,15 +6,6 @@
         <div id="mercuryo-widget"></div>
         <script src="https://widget.mercuryo.io/embed.2.0.js"></script>
         <script type="text/javascript">
-            let loc = window.location.toString();
-            let params = loc.split('?')[1];
-            let obj = {};
-            if (!params) {
-                obj = {}
-            } else {
-                obj = JSON.parse('{"' + decodeURI(params).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
-            }
-
             function hyphensToCamelCase(str) {
                 var arr = str.split(/[_-]/);
                 var newStr = "";
@@ -24,10 +15,17 @@
                 return arr[0] + newStr;
             }
 
-            Object.keys(obj).forEach(k => {
-                obj[hyphensToCamelCase(k)] = obj[k];
-                if (k.includes('_')) delete obj[k];
-            });
+            let loc = window.location.toString();
+            let params = loc.split('?')[1];
+            let obj = {};
+            if (params) {
+                obj = JSON.parse('{"' + decodeURI(params).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+
+                Object.keys(obj).forEach(k => {
+                    obj[hyphensToCamelCase(k)] = obj[k];
+                    if (k.includes('_')) delete obj[k];
+                });
+            }
 
             let widgetParams = {
                 widgetId: 'df17f663-25ee-4e5e-8e33-6d2fda897d5d',
