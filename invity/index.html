@@ -1,0 +1,16 @@
+<html>
+    <header>
+        <title>Test</title>
+    </header>
+    <body>
+        <iframe id="myIframe" src="https://exchange.mercuryo.io"></iframe>
+        <script type="text/javascript">
+
+                var loc = window.location.toString(),
+                    params = loc.split('?')[1],
+                    iframe = document.getElementById('myIframe');
+                iframe.src = iframe.src + '?' + params;
+                console.log(iframe.src);
+        </script>
+    </body>
+</html>
