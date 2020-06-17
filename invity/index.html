@@ -28,7 +28,6 @@
                 obj[hyphensToCamelCase(k)] = obj[k];
                 if (k.includes('_')) delete obj[k];
             });
-            console.log(obj);
 
             let widgetParams = {
                 widgetId: 'df17f663-25ee-4e5e-8e33-6d2fda897d5d',
@@ -39,7 +38,7 @@
             });
 
             console.log(obj);
-            mercuryoWidget.run(widgetParams);
+            mercuryoWidget.run(obj);
         </script>
     </body>
 </html>
