@@ -15,6 +15,12 @@
                 obj = JSON.parse('{"' + decodeURI(params).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
             }
 
+            Object.keys(obj).forEach(k => {
+                obj[k.replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); })] = obj[k];
+                delete obj[k];
+            })
+            console.log(obj);
+
             let widgetParams = {
                 widgetId: 'df17f663-25ee-4e5e-8e33-6d2fda897d5d',
                 host: document.getElementById('mercuryo-widget'),
@@ -22,6 +28,7 @@
             Object.keys(widgetParams).forEach(k => {
                 obj[k] = widgetParams[k]
             });
+
             console.log(obj);
             mercuryoWidget.run(widgetParams);
         </script>
