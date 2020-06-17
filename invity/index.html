@@ -15,10 +15,19 @@
                 obj = JSON.parse('{"' + decodeURI(params).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
             }
 
+            function hyphensToCamelCase(str) {
+                var arr = str.split(/[_-]/);
+                var newStr = "";
+                for (var i = 1; i < arr.length; i++) {
+                    newStr += arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+                }
+                return arr[0] + newStr;
+            }
+
             Object.keys(obj).forEach(k => {
-                obj[k.replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); })] = obj[k];
-                delete obj[k];
-            })
+                obj[hyphensToCamelCase(k)] = obj[k];
+                if (k.includes('_')) delete obj[k];
+            });
             console.log(obj);
 
             let widgetParams = {
