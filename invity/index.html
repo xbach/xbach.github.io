@@ -3,14 +3,27 @@
         <title>Test</title>
     </header>
     <body>
-        <iframe id="myIframe" src="https://exchange.mercuryo.io"></iframe>
+        <div id="mercuryo-widget"></div>
+        <script src="https://widget.mercuryo.io/embed.2.0.js"></script>
         <script type="text/javascript">
+            let loc = window.location.toString();
+            let params = loc.split('?')[1];
+            let obj = {};
+            if (!params) {
+                obj = {}
+            } else {
+                obj = JSON.parse('{"' + decodeURI(params).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+            }
 
-                var loc = window.location.toString(),
-                    params = loc.split('?')[1],
-                    iframe = document.getElementById('myIframe');
-                iframe.src = iframe.src + '?' + params;
-                console.log(iframe.src);
+            let widgetParams = {
+                widgetId: 'df17f663-25ee-4e5e-8e33-6d2fda897d5d',
+                host: document.getElementById('mercuryo-widget'),
+            };
+            Object.keys(widgetParams).forEach(k => {
+                obj[k] = widgetParams[k]
+            });
+            console.log(obj);
+            mercuryoWidget.run(widgetParams);
         </script>
     </body>
 </html>
