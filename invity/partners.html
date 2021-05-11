@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Inivty.io Partners</title>
+    <script>
+        async function getInfo(app, product) {
+            var options = { "method": "GET", "headers": { "Accept": "application/json", "Content-Type": "application/json" } };
+            if (app === 'trezor') {
+                options.headers['X-Trezor-API'] = 'SupportListing';
+            } else if (app === 'invity') {
+                options.headers['X-Invity-API'] = 'SupportListing';
+            } else if (app === 'suite') {
+                options.headers['X-SuiteW-API'] = 'SupportListing';
+            } else {
+                options.headers['X-Invity-Test'] = 'SupportListing';
+            }
+            var url;
+            if (product === 'buy') {
+                url = 'https://exchange.invity.io/api/buy/list';
+            } else {
+                url = 'https://exchange.invity.io/api/exchange/list';
+            }
+            var data = await fetch(url, options).then(response => response.json());
+            if (product === 'buy') {
+                document.querySelector("#content").innerText = JSON.stringify(data.providers.filter(f => f.isActive === true).map(m => m = { ...m, name: m.name.toUpperCase() }), null, '> ');
+                document.querySelector("#activelist").innerText = JSON.stringify(data.providers.filter(f => f.isActive === true).map(m => m = m.name.toUpperCase()), null, '> ');
+                document.querySelector("#inactivelist").innerText = JSON.stringify(data.providers.filter(f => f.isActive === false).map(m => m = m.name.toUpperCase()), null, '> ');
+            } else {
+                document.querySelector("#content").innerText = JSON.stringify(data.filter(f => f.isActive === true).map(m => m = { ...m, name: m.name.toUpperCase() }), null, '> ');
+                document.querySelector("#activelist").innerText = JSON.stringify(data.filter(f => f.isActive === true).map(m => m = m.name.toUpperCase()), null, '> ');
+                document.querySelector("#inactivelist").innerText = JSON.stringify(data.filter(f => f.isActive === false).map(m => m = m.name.toUpperCase()), null, '> ');
+            }
+        }
+        function getBuyPartners(app) {
+            getInfo(app, 'buy');
+        }
+        function getExchangePartners(app) {
+            getInfo(app, 'exchange');
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Inivty.io Buy Partners</h1>
+    <p><em>"supportedCountries": []</em> means Worldwide support except for OFAC countries</p>
+    <div>
+        <button onclick="getBuyPartners('invity')">Show Invity Buy Partners</button>
+        <button onclick="getExchangePartners('invity')">Show Invity Exchange Partners</button>
+        <button onclick="getBuyPartners('trezor')">Show Trezor Buy Partners</button>
+        <button onclick="getExchangePartners('trezor')">Show Trezor Exchange Partners</button>
+        <button onclick="getBuyPartners('suite')">Show Suite Buy Partners</button>
+        <button onclick="getExchangePartners('suite')">Show Suite Exchange Partners</button>
+    </div>
+    <p>Active List</p>
+    <div id="activelist"></div>
+    <p>Inactive List</p>
+    <div id="inactivelist"></div>
+    <p>Whole Listing</p>
+    <div id="content"></div>
+
+</body>
+
+</html>
